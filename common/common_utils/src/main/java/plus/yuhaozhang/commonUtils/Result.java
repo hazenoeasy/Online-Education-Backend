@@ -22,13 +22,17 @@ public class Result {
     private Object data;
 
     //成功静态方法
-    public static Result success(Object data) {
+    public static Result success() {
         Result response = new Result();
         response.setSuccess(true);
         response.setCode(StatusCode.SUCCESS.getCode());
         response.setMessage(StatusCode.SUCCESS.getMessage());
-        response.setData(data);
         return response;
+    }
+    public static Result success(Object data) {
+        Result success = Result.success();
+        success.setData(data);
+        return success;
     }
 
     /**

@@ -1,6 +1,8 @@
 package plus.yuhaozhang.service.edu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import plus.yuhaozhang.service.edu.entity.Teacher;
 import plus.yuhaozhang.service.edu.mapper.TeacherMapper;
 import plus.yuhaozhang.service.edu.service.TeacherService;
@@ -26,9 +28,26 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     TeacherService teacherService;
     @Override
     public List<Teacher> getByPage(PageParams pageParams) {
-        Page<Teacher> objectPage = new Page<>(pageParams.getPage(), pageParams.getPageSize());
-        teacherService.page(objectPage,null);
-        List<Teacher> result = objectPage.getRecords();
+        Page<Teacher> teacherPage = new Page<>(pageParams.getPage(), pageParams.getPageSize());
+        String begin = pageParams.getBegin();
+        String end = pageParams.getEnd();
+        Integer level = pageParams.getLevel();
+        String name = pageParams.getName();
+        QueryWrapper<Teacher> teacherQueryWrapper = new QueryWrapper<>();
+        if(!StringUtils.isEmpty(name)){
+            teacherQueryWrapper.like("name",name);
+        }
+        if(level!=null){
+          teacherQueryWrapper.eq("level",level);
+        }
+        if(!StringUtils.isEmpty(begin)){
+            teacherQueryWrapper.ge("gmt_create",begin);
+        }
+        if(!StringUtils.isEmpty(end)){
+            teacherQueryWrapper.le("gmt_create",end);
+        }
+        teacherService.page(teacherPage,teacherQueryWrapper);
+        List<Teacher> result = teacherPage.getRecords();
         return result;
     }
 }

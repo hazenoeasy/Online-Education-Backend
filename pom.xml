@@ -144,11 +144,11 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.2.76</version>
             </dependency>
-            <dependency>
-                <groupId>org.json</groupId>
-                <artifactId>json</artifactId>
-                <version>${json.version}</version>
-            </dependency>
+            <!--<dependency>-->
+            <!--    <groupId></groupId>-->
+            <!--    <artifactId>json</artifactId>-->
+            <!--    <version></version>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>commons-dbutils</groupId>
@@ -180,7 +180,7 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
-                    </excludes>sw
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

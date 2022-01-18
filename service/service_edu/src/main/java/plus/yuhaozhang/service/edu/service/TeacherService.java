@@ -15,5 +15,10 @@ import java.util.List;
  * @since 2022-01-17
  */
 public interface TeacherService extends IService<Teacher> {
+    /**
+     * query data by page and name and other params
+     * @param pageParams select params
+     * @return list Teacher
+     */
     public List<Teacher> getByPage(PageParams pageParams);
 }
