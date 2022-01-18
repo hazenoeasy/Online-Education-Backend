@@ -19,3 +19,11 @@
 * varchar是可变长字符串，
 * 唯一索引名为uk_字段名，普通索引名为 idx_字段名
 * 不得使用外键与级联，一切外键概念必须在应用层解决，外键与级联更新适合单机低并发，不适合分布式，高并发，级联是强阻塞，外键影响数据库插入速度
+
+
+## 讲师开发
+* 逻辑删除： 设置删除标识位置，而非真正删除。 通过mybatis-plus 对实体类添加@TableLogic 实现
+* 不同模块，为了扫描包，需要在启动类上加@ComponentScan(basePackages = {"sd"})
+## bug
+* Swagger3 一直调试失败 应该和guava有关系，而且swagger和springboot兼容性很不好 后续采用springdoc-openapi 替代. 但因为mybatis plus generator 不能生成open-api 的注释，所以最终选择降低springboot版本，使用swagger2 开发
+
