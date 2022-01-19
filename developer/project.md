@@ -33,3 +33,9 @@
 
 * mybatis 对server也做了丰富，基本操作最好在server中进行，复杂的sql在mapper中进行
 * StringUtils.isEmpty 会判断是否为空字符串
+
+## COS
+
+* 常量两种方式 
+  * 第一种，使用PropertiesLoaderUtils.loadProperties 读取 properties 文件
+  * 第二种，使用常量类 @value 继承 initializingbean

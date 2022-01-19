@@ -59,28 +59,32 @@ public class TeacherController {
     public Result getByPage(@RequestBody PageParams pageParams) {
         List<Teacher> teacherServiceByPage = teacherService.getByPage(pageParams);
         Map<String, Object> result = new HashMap<>();
-        result.put("total", teacherServiceByPage.size());
-        result.put("row", teacherServiceByPage);
+        //result.put("total", teacherServiceByPage.size());
+        result.put("total", teacherService.count());
+        result.put("rows", teacherServiceByPage);
         return Result.success(result);
     }
 
     @ApiOperation(value = "添加讲师")
     @PostMapping("addTeacher")
     public Result addTeacher(@RequestBody Teacher teacher) {
-        System.out.println("");
-        boolean save = teacherService.save(teacher);
-        if (save) {
-            return Result.success();
-        } else {
-            return Result.error(StatusCode.FAIL);
+
+        Teacher teacherExist = teacherService.getOne(new QueryWrapper<Teacher>().eq("name", teacher.getName()));
+        if (teacherExist != null) {
+            return Result.error(StatusCode.INVALID_PARAM);
         }
+        teacherService.save(teacher);
+        return Result.success();
+
     }
 
     @ApiOperation(value = "根据讲师id查讲师")
     @GetMapping("get/{id}")
     public Result selectTeacherById(@PathVariable String id) {
         Teacher teacherServiceById = teacherService.getById(id);
-        return Result.success(teacherServiceById);
+        Map<String, Object> map = new HashMap<>();
+        map.put("teacher", teacherServiceById);
+        return Result.success(map);
     }
 
     @ApiOperation(value = "修改讲师信息")
@@ -91,27 +95,21 @@ public class TeacherController {
             return Result.error(StatusCode.WRONG_PARAM);
         }
         Teacher teacherExist = teacherService.getOne(new QueryWrapper<Teacher>().eq("name", teacher.getName()));
-        if (teacherExist != null) {
+        if (teacherExist == null) {
             return Result.error(StatusCode.INVALID_PARAM);
         }
-        boolean updateById = teacherService.updateById(teacher);
-        if (updateById) {
-            return Result.success();
-        } else {
-            return Result.error(StatusCode.FAIL);
-        }
-    }
-
-    @ApiOperation(value = "测试 exception")
-    @GetMapping("exception")
-    public Result tesetException() {
-        //int i=1/0;
-        if (1 == 1) {
-            throw new PurPoseException(StatusCode.SYSTEM_FAULT, "purpose fault");
-        }
+        teacherService.updateById(teacher);
         return Result.success();
     }
 
-
+    //@ApiOperation(value = "测试 exception")
+    //@GetMapping("exception")
+    //public Result tesetException() {
+    //    //int i=1/0;
+    //    if (1 == 1) {
+    //        throw new PurPoseException(StatusCode.SYSTEM_FAULT, "purpose fault");
+    //    }
+    //    return Result.success();
+    //}
 }
 

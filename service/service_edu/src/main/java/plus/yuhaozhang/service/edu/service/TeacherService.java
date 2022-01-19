@@ -21,4 +21,5 @@ public interface TeacherService extends IService<Teacher> {
      * @return list Teacher
      */
     public List<Teacher> getByPage(PageParams pageParams);
+
 }

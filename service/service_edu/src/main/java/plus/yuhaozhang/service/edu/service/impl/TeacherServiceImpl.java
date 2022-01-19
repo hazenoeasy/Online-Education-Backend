@@ -46,6 +46,7 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         if(!StringUtils.isEmpty(end)){
             teacherQueryWrapper.le("gmt_create",end);
         }
+        teacherQueryWrapper.orderByDesc("gmt_create");
         teacherService.page(teacherPage,teacherQueryWrapper);
         List<Teacher> result = teacherPage.getRecords();
         return result;
