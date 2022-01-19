@@ -13,6 +13,8 @@ target/
 .springBeans
 .sts4-cache
 
+service/service_cos/src/main/resources/cos.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
