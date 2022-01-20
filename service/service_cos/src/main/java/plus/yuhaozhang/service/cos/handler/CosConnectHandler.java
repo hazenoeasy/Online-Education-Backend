@@ -8,6 +8,7 @@ import com.qcloud.cos.http.HttpMethodName;
 import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.region.Region;
+import lombok.Data;
 import org.joda.time.DateTime;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -22,13 +23,14 @@ import java.util.Properties;
  * @author Yuh Z
  * @date 12/15/21
  */
+@Data
 public class CosConnectHandler {
     private COSClient cosClient;
     private String secretId;
     private String secretKey;
     private String region;
     private String bucketName;
-    private String file;
+    private String fold;
     private String properties = "cos.properties";
 
     public CosConnectHandler() throws IOException {
@@ -39,7 +41,7 @@ public class CosConnectHandler {
         this.secretKey = properties.getProperty("secretKey");
         this.region = properties.getProperty("region");
         this.bucketName = properties.getProperty("bucketName");
-        this.file = properties.getProperty("file");
+        this.fold = properties.getProperty("fold");
     }
 
     public CosConnectHandler(String propFile) throws IOException {
@@ -49,7 +51,7 @@ public class CosConnectHandler {
         this.secretKey = properties.getProperty("secretKey");
         this.region = properties.getProperty("region");
         this.bucketName = properties.getProperty("bucketName");
-        this.file = properties.getProperty("file");
+        this.fold = properties.getProperty("fold");
     }
 
     public COSClient open() throws IOException {
@@ -73,10 +75,11 @@ public class CosConnectHandler {
 
     public URL save(String fileName, File file) throws IOException {
         String date = new DateTime().toString("yyy/MM/");
-        PutObjectRequest putObjectRequest = new PutObjectRequest(this.bucketName, this.file + date + fileName, file);
+        String path = this.fold + date + fileName;
+        PutObjectRequest putObjectRequest = new PutObjectRequest(this.bucketName, path, file);
         cosClient.putObject(putObjectRequest);
         Date expirationDate = new Date(System.currentTimeMillis() + 1000L * 24L * 60L * 60L * 1000L);
-        URL url = cosClient.generatePresignedUrl(this.bucketName, this.file + fileName, expirationDate,
+        URL url = cosClient.generatePresignedUrl(this.bucketName, path, expirationDate,
                 HttpMethodName.GET);
         return url;
     }

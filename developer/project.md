@@ -39,3 +39,8 @@
 * 常量两种方式 
   * 第一种，使用PropertiesLoaderUtils.loadProperties 读取 properties 文件
   * 第二种，使用常量类 @value 继承 initializingbean
+
+## Nginx 配置 实现反向代理
+
+nginx 根据url判断转发对象
+/edu/xxx

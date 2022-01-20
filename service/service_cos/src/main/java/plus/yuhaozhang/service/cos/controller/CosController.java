@@ -15,6 +15,8 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -22,14 +24,15 @@ import java.util.UUID;
  * @date 1/19/22
  */
 @RestController
-@RequestMapping("cos")
+@RequestMapping("edu/cos")
 public class  CosController{
     @Autowired
     private CosService cosService;
-
     @PostMapping("upload")
-    public Result uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+    public Result uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         URL url = cosService.uploadFile(file);
+        Map<String, URL> map = new HashMap<>();
+        System.out.println(url);
         return Result.success(url);
     }
 }
