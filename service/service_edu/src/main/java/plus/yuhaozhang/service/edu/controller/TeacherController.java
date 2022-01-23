@@ -9,8 +9,7 @@ import plus.yuhaozhang.commonUtils.StatusCode;
 import plus.yuhaozhang.service.edu.entity.Teacher;
 import plus.yuhaozhang.service.edu.mapper.TeacherMapper;
 import plus.yuhaozhang.service.edu.service.TeacherService;
-import plus.yuhaozhang.service.edu.vo.PageParams;
-import plus.yuhaozhang.servicebase.handler.exceptionHandler.PurPoseException;
+import plus.yuhaozhang.service.edu.params.TeacherQueryParams;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -40,7 +39,9 @@ public class TeacherController {
     @GetMapping("getAll")
     public Result getAllTeacher() {
         List<Teacher> list = teacherService.list();
-        return Result.success(list);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("list",list);
+        return Result.success(map);
     }
 
     @ApiOperation(value = "根据ID删除讲师")
@@ -56,8 +57,8 @@ public class TeacherController {
 
     @ApiOperation(value = "根据页面查数据")
     @PostMapping("getByPage")
-    public Result getByPage(@RequestBody PageParams pageParams) {
-        List<Teacher> teacherServiceByPage = teacherService.getByPage(pageParams);
+    public Result getByPage(@RequestBody TeacherQueryParams teacherQueryParams) {
+        List<Teacher> teacherServiceByPage = teacherService.getByPage(teacherQueryParams);
         Map<String, Object> result = new HashMap<>();
         //result.put("total", teacherServiceByPage.size());
         result.put("total", teacherService.count());
@@ -101,15 +102,5 @@ public class TeacherController {
         teacherService.updateById(teacher);
         return Result.success();
     }
-
-    //@ApiOperation(value = "测试 exception")
-    //@GetMapping("exception")
-    //public Result tesetException() {
-    //    //int i=1/0;
-    //    if (1 == 1) {
-    //        throw new PurPoseException(StatusCode.SYSTEM_FAULT, "purpose fault");
-    //    }
-    //    return Result.success();
-    //}
 }
 

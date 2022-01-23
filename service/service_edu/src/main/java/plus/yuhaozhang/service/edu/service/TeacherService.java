@@ -2,7 +2,7 @@ package plus.yuhaozhang.service.edu.service;
 
 import plus.yuhaozhang.service.edu.entity.Teacher;
 import com.baomidou.mybatisplus.extension.service.IService;
-import plus.yuhaozhang.service.edu.vo.PageParams;
+import plus.yuhaozhang.service.edu.params.TeacherQueryParams;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import java.util.List;
 public interface TeacherService extends IService<Teacher> {
     /**
      * query data by page and name and other params
-     * @param pageParams select params
+     * @param teacherQueryParams select params
      * @return list Teacher
      */
-    public List<Teacher> getByPage(PageParams pageParams);
+    public List<Teacher> getByPage(TeacherQueryParams teacherQueryParams);
 
 }

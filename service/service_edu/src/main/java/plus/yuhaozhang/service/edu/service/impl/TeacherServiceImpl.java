@@ -8,7 +8,7 @@ import plus.yuhaozhang.service.edu.mapper.TeacherMapper;
 import plus.yuhaozhang.service.edu.service.TeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import plus.yuhaozhang.service.edu.vo.PageParams;
+import plus.yuhaozhang.service.edu.params.TeacherQueryParams;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,12 +27,12 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     @Resource
     TeacherService teacherService;
     @Override
-    public List<Teacher> getByPage(PageParams pageParams) {
-        Page<Teacher> teacherPage = new Page<>(pageParams.getPage(), pageParams.getPageSize());
-        String begin = pageParams.getBegin();
-        String end = pageParams.getEnd();
-        Integer level = pageParams.getLevel();
-        String name = pageParams.getName();
+    public List<Teacher> getByPage(TeacherQueryParams teacherQueryParams) {
+        Page<Teacher> teacherPage = new Page<>(teacherQueryParams.getPage(), teacherQueryParams.getPageSize());
+        String begin = teacherQueryParams.getBegin();
+        String end = teacherQueryParams.getEnd();
+        Integer level = teacherQueryParams.getLevel();
+        String name = teacherQueryParams.getName();
         QueryWrapper<Teacher> teacherQueryWrapper = new QueryWrapper<>();
         if(!StringUtils.isEmpty(name)){
             teacherQueryWrapper.like("name",name);

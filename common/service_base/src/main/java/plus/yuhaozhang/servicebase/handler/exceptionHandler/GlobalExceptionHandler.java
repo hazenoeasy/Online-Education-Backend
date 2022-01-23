@@ -19,6 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result globalException(Exception e){
+        e.printStackTrace();
         log.error(e.getMessage());
         return Result.error(StatusCode.SYSTEM_FAULT);
     }

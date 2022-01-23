@@ -1,4 +1,4 @@
-package plus.yuhaozhang.service.edu.vo;
+package plus.yuhaozhang.service.edu.params;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-public class PageParams {
+public class TeacherQueryParams {
     @ApiModelProperty(value = "页数")
     private Integer page = 1;
 
