@@ -6,8 +6,11 @@ import java.util.Date;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import plus.yuhaozhang.service.edu.params.ChapterParams;
 
 /**
  * <p>
@@ -17,6 +20,7 @@ import lombok.EqualsAndHashCode;
  * @author Yuh Z
  * @since 2022-01-21
  */
+@NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("edu_chapter")
@@ -46,5 +50,9 @@ public class Chapter implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
 
-
+    public Chapter(ChapterParams chapterParams) {
+        this.courseId=chapterParams.getCourseId();
+        this.title = chapterParams.getTitle();
+        this.sort = chapterParams.getSort();
+    }
 }

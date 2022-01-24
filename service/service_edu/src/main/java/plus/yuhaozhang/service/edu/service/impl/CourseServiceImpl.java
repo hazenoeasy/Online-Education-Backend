@@ -35,6 +35,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Override
     public List<CourseVo> getByPage(CourseQueryParams courseQueryParams) {
         QueryWrapper queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("gmt_modified");
         if(!StringUtils.isEmpty(courseQueryParams.getTitle())){
             queryWrapper.like("title",courseQueryParams.getTitle());
         }

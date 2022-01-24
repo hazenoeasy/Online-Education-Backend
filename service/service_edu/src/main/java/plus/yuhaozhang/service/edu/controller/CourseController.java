@@ -46,7 +46,9 @@ public class CourseController {
         String courseId = course.getId();
         CourseDescription courseDescription = new CourseDescription(courseId,courseInfoVo.getDescription());
         courseDescriptionService.save(courseDescription);
-        return Result.success();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("courseId",courseId);
+        return Result.success(map);
     }
 
     @ApiOperation(value = "根据Id查询课程")
