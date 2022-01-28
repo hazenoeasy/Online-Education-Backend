@@ -36,73 +36,95 @@
 
 ## COS
 
-* 常量两种方式 
-  * 第一种，使用PropertiesLoaderUtils.loadProperties 读取 properties 文件
-  * 第二种，使用常量类 @value 继承 initializingbean
+* 常量两种方式
+    * 第一种，使用PropertiesLoaderUtils.loadProperties 读取 properties 文件
+    * 第二种，使用常量类 @value 继承 initializingbean
 
 ## Nginx 配置 实现反向代理
 
-nginx 根据url判断转发对象
-/edu/xxx
+nginx 根据url判断转发对象 /edu/xxx
 
 ## 数据模型
 
-* PO/DO: Persistent  Object 持久数据 对应数据库 一个表一个对象
+* PO/DO: Persistent Object 持久数据 对应数据库 一个表一个对象
 * VO: Value Object view object 业务层之间的数据传递
 * DAO: Data access object DAO 中包含了各种数据库的操作方法。通过它的方法 , 结合 PO 对数据库进行相关的操作。夹在业务逻辑与数据库资源中间。
 * DTO：data trasfer object，数据传输对象。主要用于远程调用等需要大量传输对象的地方。 只把部分数据封装起来传输， 要是传输给客户端，就是vo层了
 
-vo -> controller -> dto -> service -> po -> database
-databast -> po -> service -> DTO
+vo -> controller -> dto -> service -> po -> database databast -> po -> service -> DTO
 
 ## EasyExcel bug
-默认依赖有问题  
-需要额外引入poi  
-```xml
- <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
-                <version>5.0.0</version>
-            </dependency>
 
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>5.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-scratchpad</artifactId>
-                <version>5.0.0</version>
-            </dependency>
+默认依赖有问题  
+需要额外引入poi
+
+```xml
+
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>5.0.0</version>
+</dependency>
+
+<dependency>
+<groupId>org.apache.poi</groupId>
+<artifactId>poi-ooxml</artifactId>
+<version>5.0.0</version>
+</dependency>
+<dependency>
+<groupId>org.apache.poi</groupId>
+<artifactId>poi-scratchpad</artifactId>
+<version>5.0.0</version>
+</dependency>
 ```
 
-## Mybatis-plus 
+## Mybatis-plus
+
 * Mybatis框架会调用这个默认构造方法来构造实例对象，即实体类需要通过Mybatis进行动态反射生成。 反射的Class.forName("className").newInstance();需要对应的类提供一个无参构造函数。
-  * 如果在类中没有提供任何构造方法，虚拟机会自动提供默认构造方法（无参构造器），但是如果提供了其他有参数的构造方法的话，虚拟机就不再为提供默认构造方法，所以默认的构造方法不是必须的，只在有多个构造方法时才是必须的显式声明的。
+    * 如果在类中没有提供任何构造方法，虚拟机会自动提供默认构造方法（无参构造器），但是如果提供了其他有参数的构造方法的话，虚拟机就不再为提供默认构造方法，所以默认的构造方法不是必须的，只在有多个构造方法时才是必须的显式声明的。
 
 code at org.apache.ibatis.executor.resultset.DefaultResultSetHandler.
 
 ```java
- private Object createByConstructorSignature(ResultSetWrapper rsw, Class<?> resultType, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) throws SQLException {
-        Constructor<?>[] constructors = resultType.getDeclaredConstructors();
-        Constructor<?> defaultConstructor = this.findDefaultConstructor(constructors);
-        if (defaultConstructor != null) {
-            return this.createUsingConstructor(rsw, resultType, constructorArgTypes, constructorArgs, defaultConstructor);
-        } else {
-            Constructor[] var7 = constructors;
-            int var8 = constructors.length;
+ private Object createByConstructorSignature(ResultSetWrapper rsw,Class<?> resultType,List<Class<?>>constructorArgTypes,List<Object> constructorArgs)throws SQLException{
+        Constructor<?>[]constructors=resultType.getDeclaredConstructors();
+        Constructor<?> defaultConstructor=this.findDefaultConstructor(constructors);
+        if(defaultConstructor!=null){
+        return this.createUsingConstructor(rsw,resultType,constructorArgTypes,constructorArgs,defaultConstructor);
+        }else{
+        Constructor[]var7=constructors;
+        int var8=constructors.length;
 
-            for(int var9 = 0; var9 < var8; ++var9) {
-                Constructor<?> constructor = var7[var9];
-                if (this.allowedConstructorUsingTypeHandlers(constructor, rsw.getJdbcTypes())) {
-                    return this.createUsingConstructor(rsw, resultType, constructorArgTypes, constructorArgs, constructor);
-                }
-            }
-
-            throw new ExecutorException("No constructor found in " + resultType.getName() + " matching " + rsw.getClassNames());
+        for(int var9=0;var9<var8; ++var9){
+        Constructor<?> constructor=var7[var9];
+        if(this.allowedConstructorUsingTypeHandlers(constructor,rsw.getJdbcTypes())){
+        return this.createUsingConstructor(rsw,resultType,constructorArgTypes,constructorArgs,constructor);
         }
-    }
+        }
+
+        throw new ExecutorException("No constructor found in "+resultType.getName()+" matching "+rsw.getClassNames());
+        }
+        }
 ```
- 
+
 mybatis会查看所有构造器，然后跟数据库参数进行匹配
+
+## 多表查询
+
+* 内连接
+    * 查询两张表 有关联的数据 没有关联的数据查不出来
+* 左外连接
+    * 左边所有数据 右边有关数据
+* 右外连接
+    * 右边所有数据 左边有关数据
+
+mybatis  
+
+`Invalid bound statement (not found): plus.yuhaozhang.service.edu.mapper.CourseMapper.getCourseOverview`
+
+由于maven 默认加载机制造成的问题 不会加载mapper 问题
+
+通过配置来加载xml文件   
+1. pom 文件
+2. application.properties 文件
+
