@@ -10,11 +10,12 @@ import plus.yuhaozhang.service.edu.vo.CourseInfoVo;
 import plus.yuhaozhang.service.edu.service.CourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import plus.yuhaozhang.service.edu.vo.CourseOverViewVo;
 import plus.yuhaozhang.service.edu.vo.CourseVo;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <p>
@@ -27,6 +28,8 @@ import java.util.stream.Stream;
 @Service
 public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> implements CourseService {
 
+    @Resource
+    private CourseMapper courseMapper;
     @Override
     public void addCourse(CourseInfoVo courseInfoVo) {
 
@@ -60,5 +63,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
             queryWrapper.eq("status",courseQueryParams.getStatus());
         }
         return this.count(queryWrapper);
+    }
+
+    @Override
+    public void publish(String id) {
+        //this.up
+    }
+
+    @Override
+    public CourseOverViewVo getCourseOverview(String id) {
+        CourseOverViewVo courseOverViewVo = courseMapper.getCourseOverview(id);
+        return courseOverViewVo;
     }
 }

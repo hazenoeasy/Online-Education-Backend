@@ -12,10 +12,12 @@ import plus.yuhaozhang.service.edu.params.CourseQueryParams;
 import plus.yuhaozhang.service.edu.vo.CourseInfoVo;
 import plus.yuhaozhang.service.edu.service.CourseDescriptionService;
 import plus.yuhaozhang.service.edu.service.CourseService;
+import plus.yuhaozhang.service.edu.vo.CourseOverViewVo;
 import plus.yuhaozhang.service.edu.vo.CourseVo;
 import plus.yuhaozhang.servicebase.handler.exceptionHandler.PurPoseException;
 
 import javax.annotation.Resource;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +98,21 @@ public class CourseController {
         map.put("total",count);
         return Result.success(map);
     }
+
+    @ApiOperation(value = "获取课程总览")
+    @GetMapping("getCourseOverview/{id}")
+    public Result getCourseOverview(@PathVariable String id){
+        CourseOverViewVo courseOverViewVo = courseService.getCourseOverview(id);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("couseOverview",courseOverViewVo);
+        return Result.success(map);
+    }
+
+    //@ApiOperation(value = "发布课程")
+    //@PutMapping("publish")
+    //public Result publish(@RequestBody String id){
+    //    courseService.publish(id);
+    //}
 
 }
 
