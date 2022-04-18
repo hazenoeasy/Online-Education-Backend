@@ -2,13 +2,18 @@ package plus.yuhaozhang.service.edu.controller;
 
 
 import com.alibaba.excel.util.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import plus.yuhaozhang.commonUtils.Result;
 import plus.yuhaozhang.commonUtils.StatusCode;
+import plus.yuhaozhang.service.edu.entity.Chapter;
 import plus.yuhaozhang.service.edu.entity.Course;
 import plus.yuhaozhang.service.edu.entity.CourseDescription;
+import plus.yuhaozhang.service.edu.entity.Video;
 import plus.yuhaozhang.service.edu.params.CourseQueryParams;
+import plus.yuhaozhang.service.edu.service.ChapterService;
+import plus.yuhaozhang.service.edu.service.VideoService;
 import plus.yuhaozhang.service.edu.vo.CourseInfoVo;
 import plus.yuhaozhang.service.edu.service.CourseDescriptionService;
 import plus.yuhaozhang.service.edu.service.CourseService;
@@ -39,6 +44,12 @@ public class CourseController {
 
     @Resource
     private CourseDescriptionService courseDescriptionService;
+
+    @Resource
+    private VideoService videoService;
+
+    @Resource
+    private ChapterService chapterService;
 
     @ApiOperation(value = "添加课程")
     @PostMapping("addCourse")
@@ -85,6 +96,9 @@ public class CourseController {
     @DeleteMapping("deleteById/{id}")
     public Result deleteCourseById(@PathVariable String id){
         courseService.removeById(id);
+        courseDescriptionService.removeById(id);
+        videoService.remove(new QueryWrapper<Video>().eq("course_id",id));
+        chapterService.remove(new QueryWrapper<Chapter>().eq("course_id",id));
         return Result.success();
     }
 
@@ -104,15 +118,16 @@ public class CourseController {
     public Result getCourseOverview(@PathVariable String id){
         CourseOverViewVo courseOverViewVo = courseService.getCourseOverview(id);
         HashMap<String, Object> map = new HashMap<>();
-        map.put("couseOverview",courseOverViewVo);
+        map.put("courseOverview",courseOverViewVo);
         return Result.success(map);
     }
 
-    //@ApiOperation(value = "发布课程")
-    //@PutMapping("publish")
-    //public Result publish(@RequestBody String id){
-    //    courseService.publish(id);
-    //}
+    @ApiOperation(value = "发布课程")
+    @PutMapping("publishCourse/{id}")
+    public Result publish(@PathVariable String id){
 
+        courseService.publish(id);
+        return Result.success();
+    }
 }
 

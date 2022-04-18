@@ -16,6 +16,7 @@
         <!--<module>service_vod</module>-->
         <module>service_edu</module>
         <module>service_cos</module>
+        <module>service_vod</module>
         <!--<module>service_cms</module>-->
         <!--<module>service_msm</module>-->
         <!--<module>service_ucenter</module>-->
@@ -65,15 +66,14 @@
         <!--</dependency>-->
 
         <!--服务注册-->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-        <!--</dependency>-->
-        <!--服务调用-->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-openfeign</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

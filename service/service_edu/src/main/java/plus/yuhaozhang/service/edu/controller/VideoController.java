@@ -35,9 +35,9 @@ public class VideoController {
     // TODO: 删除小节 也要删除视频
     @ApiOperation(value = "删除小节")
     @DeleteMapping("delete/{id}")
-    public Result deleteVideo(@PathVariable String id){
+    public Result deleteVideo(@PathVariable String id) {
         videoService.removeById(id);
-        return  Result.success();
+        return Result.success();
     }
     // 删除小节
 

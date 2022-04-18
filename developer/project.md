@@ -128,3 +128,50 @@ mybatis
 1. pom 文件
 2. application.properties 文件
 
+## 微服务架构
+Service 下有多个微服务,独立运行
+
+为什么需要微服务：
+
+单体架构代码量大 维护困难
+
+微服务每个模块可以使用不同的存储方式
+
+不是所有项目有适合微服务
+
+主流：
+
+Spring Cloud
+
+Dubbo
+
+SpringCloud 不是一种技术 是技术的集合
+SpringCloud 里面有很多框架，使用它的框架实现微服务
+使用SpringCloud 需要依赖springboot
+
+### 相关组件
+1. 服务发现 Eureka Nacos
+2. 服务调用 Feign
+3. 熔断器 Hystrix
+4. 服务网关 Spring Cloud Gateway
+5. 分布式配置 Spring Cloud Config Naocs
+6. 消息总线 Spring Cloud Bus Nacos
+
+微服务 是一种架构风格
+
+### 注册中心
+
+Nacos 
+
+将模块注册到注册中心 Nacos 之后 就可以相互调用了
+
+早期用的Eureka 停止维护了
+
+Zookeeper dubbo
+
+Consul
+
+Nacos 还可以管理配置 消费中线 注册中心
+
+Consumer  -- Nacos -- Provider
+

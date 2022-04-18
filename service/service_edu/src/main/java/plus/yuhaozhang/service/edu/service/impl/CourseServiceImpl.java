@@ -67,7 +67,10 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Override
     public void publish(String id) {
-        //this.up
+        Course course = new Course();
+        course.setId(id);
+        course.setStatus("Normal");
+        this.updateById(course);
     }
 
     @Override
